@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 @Entity
 
@@ -37,8 +39,12 @@ public class Produto implements Serializable {
 	 * joinColumns
 	 * inverseJoinColumns
 	 * 
+	 * 
+	 * @JsonBackReference indica que do outro lado (em categorias) os produtos já foram buscados, portanto 
+	 * não é para pegar as categorias aqui desse lado (nos produtos), isso evita redundância cíclica (looping de json)
+	 * 
 	*/
-	
+	@JsonBackReference
 	@ManyToMany
 	@JoinTable(name="PRODUTO_CATEGORIA",joinColumns = @JoinColumn(name = "produto_id"),inverseJoinColumns = @JoinColumn(name = "categoria_id"))
 	private List<Categoria> categorias = new ArrayList<>();
